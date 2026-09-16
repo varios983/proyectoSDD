@@ -8,11 +8,16 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MortgageDao {
+    @Transaction
     @Query("SELECT * FROM simulations ORDER BY createdAtEpochMillis DESC")
-    fun observeSimulations(): Flow<List<SimulationEntity>>
+    fun observeSimulations(): Flow<List<SimulationWithPeriods>>
 
     @Query("SELECT * FROM simulations WHERE id = :id")
     suspend fun findSimulation(id: Long): SimulationEntity?
+
+    @Transaction
+    @Query("SELECT * FROM simulations WHERE id = :id")
+    suspend fun findSimulationWithPeriods(id: Long): SimulationWithPeriods?
 
     @Query("SELECT * FROM amortization_periods WHERE simulationId = :simulationId ORDER BY periodNumber ASC")
     suspend fun findPeriods(simulationId: Long): List<AmortizationPeriodEntity>

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenu
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -33,21 +32,17 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mortgage.domain.model.Periodicidad
 import com.example.mortgage.ui.amortization.AmortizationTable
-import java.math.BigDecimal
-import java.text.NumberFormat
-import java.util.Locale
+import com.example.mortgage.ui.calculator.MortgageSummary
 
 @Composable
 fun CalculatorScreen(viewModel: CalculatorViewModel, onOpenSaved: () -> Unit = {}) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     CalculatorContent(state = state, onEvent = viewModel::onEvent, onOpenSaved = onOpenSaved)
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CalculatorContent(state: CalculatorUiState, onEvent: (CalculatorUiEvent) -> Unit, onOpenSaved: () -> Unit) {
     var frequencyExpanded by remember { mutableStateOf(false) }
-    val currency = remember { NumberFormat.getCurrencyInstance(Locale("es", "ES")) }
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -102,29 +97,20 @@ private fun CalculatorContent(state: CalculatorUiState, onEvent: (CalculatorUiEv
         ) { Text(if (state.isCalculating) "Calculando..." else "Calcular") }
         Button(onClick = onOpenSaved, modifier = Modifier.fillMaxWidth()) { Text("Ver simulaciones guardadas") }
         state.result?.let { result ->
-            OutlinedTextField(
-                value = state.saveName,
-                onValueChange = { onEvent(CalculatorUiEvent.SaveNameChanged(it)) },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text("Nombre para guardar") },
-                singleLine = true
-            )
             Button(
-                onClick = { onEvent(CalculatorUiEvent.SaveClicked) },
+                onClick = { onEvent(CalculatorUiEvent.SaveDialogOpened) },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = state.saveName.isNotBlank()
             ) { Text("Guardar simulación") }
             state.saveMessage?.let { Text(it, color = MaterialTheme.colorScheme.primary) }
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Resumen", style = MaterialTheme.typography.titleLarge)
-                    SummaryRow("Cuota periódica", currency.format(result.cuotaPeriodica))
-                    SummaryRow("Total de intereses", currency.format(result.totalIntereses))
-                    SummaryRow("Total pagado", currency.format(result.totalPagado))
-                    SummaryRow("Periodos", result.periodos.size.toString())
-                    SummaryRow("Capital pendiente final", currency.format(result.periodos.lastOrNull()?.capitalPendiente ?: BigDecimal.ZERO))
-                }
+            if (state.showSaveDialog) {
+                SaveSimulationDialog(
+                    name = state.saveName,
+                    onNameChanged = { onEvent(CalculatorUiEvent.SaveNameChanged(it)) },
+                    onConfirm = { onEvent(CalculatorUiEvent.SaveClicked) },
+                    onDismiss = { onEvent(CalculatorUiEvent.SaveDialogClosed) }
+                )
             }
+            MortgageSummary(result)
             Text("Cuadro de amortización", style = MaterialTheme.typography.titleLarge)
             AmortizationTable(result.periodos)
         }
@@ -144,12 +130,4 @@ private fun MortgageField(label: String, value: String, error: String?, keyboard
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
     )
-}
-
-@Composable
-private fun SummaryRow(label: String, value: String) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(label)
-        Text(value, style = MaterialTheme.typography.labelLarge)
-    }
 }

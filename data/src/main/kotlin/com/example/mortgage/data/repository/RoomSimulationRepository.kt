@@ -10,18 +10,16 @@ import com.example.mortgage.domain.model.Simulacion
 import com.example.mortgage.domain.repository.SimulationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class RoomSimulationRepository(private val database: MortgageDatabase) : SimulationRepository {
     private val dao = database.mortgageDao()
 
-    override fun observeSimulations(): Flow<List<Simulacion>> = flow {
-        dao.observeSimulations().collect { entities ->
-            emit(entities.map { entity -> entity.toDomain(dao.findPeriods(entity.id)) })
-        }
-    }
+    override fun observeSimulations(): Flow<List<Simulacion>> = dao.observeSimulations()
+        .map { simulations -> simulations.map { it.simulation.toDomain(it.periods) } }
 
-    override suspend fun getSimulation(id: SimulationId): Simulacion? = dao.findSimulation(id.value)
-        ?.let { it.toDomain(dao.findPeriods(id.value)) }
+    override suspend fun getSimulation(id: SimulationId): Simulacion? = dao.findSimulationWithPeriods(id.value)
+        ?.let { it.simulation.toDomain(it.periods) }
 
     override suspend fun saveSimulation(simulation: Simulacion): SimulationId = database.withTransaction {
         val generatedId = dao.insertSimulation(simulation.copy(id = SimulationId(0)).toEntity())

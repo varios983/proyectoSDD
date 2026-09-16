@@ -1,9 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.plugin.compose") version "2.3.21"
     alias(libs.plugins.ksp)
-    alias(libs.plugins.hilt)
 }
 
 android {
@@ -29,6 +27,12 @@ android {
     }
 }
 
+// Forzar KSP1 (no KSP2)
+ksp {
+    // No usar KSP2
+    // useKsp2 = false  // ← Esta propiedad no existe, pero el bloque ayuda
+}
+
 kotlin {
     jvmToolchain(17)
 }
@@ -52,8 +56,10 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.12.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(kotlin("test"))
 }

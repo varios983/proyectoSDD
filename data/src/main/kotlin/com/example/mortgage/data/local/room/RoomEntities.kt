@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import androidx.room.Embedded
+import androidx.room.Relation
 
 @Entity(tableName = "simulations")
 data class SimulationEntity(
@@ -41,4 +43,13 @@ data class AmortizationPeriodEntity(
     val principalCents: Long,
     val interestCents: Long,
     val balanceCents: Long
+)
+
+data class SimulationWithPeriods(
+    @Embedded val simulation: SimulationEntity,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "simulationId"
+    )
+    val periods: List<AmortizationPeriodEntity>
 )

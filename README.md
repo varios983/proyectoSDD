@@ -1,55 +1,40 @@
-# Spec-Driven Development (SDD) con GitHub, Copilot y Python
+# Simulador de hipotecas Android
 
-Este proyecto ha sido desarrollado para aprender e implementar la metodología **Spec-Driven Development (SDD)** (Desarrollo Guiado por Especificaciones).
-El objetivo principal es construir software robusto en **Python** utilizando **GitHub** como plataforma de control de versiones y **GitHub Copilot** como asistente de Inteligencia Artificial para la generación de código a partir de especificaciones técnicas detalladas.
+Aplicacion Android offline-first para simular hipotecas con amortizacion francesa,
+desglose completo, cuadro de amortizacion, exportacion y comparacion de simulaciones.
 
-## Propósito del Proyecto
+## Funcionalidades
 
-El desarrollo guiado por especificaciones prioriza la definición clara de los requerimientos, contratos de API y comportamientos del sistema antes de escribir la primera línea de código lógico. Este repositorio sirve como entorno de aprendizaje para:
-* Diseñar especificaciones técnicas claras y estructuradas.
-* Utilizar **GitHub Copilot** para traducir especificaciones en código Python funcional y pruebas unitarias.
-* Adoptar buenas prácticas de control de versiones en **GitHub** mediante ramas y Pull Requests basados en features descritas en la especificación.
+- Calculo con importe, plazo, interes fijo, periodicidad y fecha opcional.
+- Precision monetaria con `BigDecimal` y ajuste del ultimo periodo a `0,00 EUR`.
+- Tabla completa de amortizacion con capital, intereses y saldo pendiente.
+- Guardado local con Room y comparacion de dos simulaciones.
+- Exportacion CSV y PDF sin conexion mediante APIs nativas de Android.
+- UI Jetpack Compose Material 3 con StateFlow, UDF, MVVM y Hilt.
 
-## Tecnologías Utilizadas
+## Stack tecnico
 
-* **Lenguaje:** [Python](https://www.python.org/)
-* **Asistente IA:** [GitHub Copilot](https://github.com/features/copilot)
-* **Plataforma:** [GitHub](https://github.com/)
-* **Pruebas:** PyTest (para la verificación automatizada de las especificaciones)
+- Kotlin 2.0+, Java 17, Android API 26+ y target SDK 35.
+- Kotlin DSL, Gradle, Jetpack Compose Material 3 y Navigation Compose.
+- Clean Architecture + MVVM/UDF con modulos `:app`, `:domain` y `:data`.
+- Room/SQLite, Hilt, JUnit 5, MockK y AndroidX Test.
 
-## Flujo de Trabajo (SDD)
+## Construccion y pruebas
 
-1. **Definición de la Especificación:** Se crea un archivo de especificación (ej. `spec.md` o documentación OpenAPI) detallando las entradas, salidas y comportamiento esperado.
-2. **Configuración del Entorno de Pruebas:** Se escriben los tests automatizados que validan el cumplimiento estricto de la especificación.
-3. **Desarrollo con Copilot:** Se interactúa con GitHub Copilot proporcionándole el contexto de la especificación para generar la implementación en Python.
-4. **Validación:** Se ejecutan las pruebas hasta que el 100% del código cumpla con los criterios definidos.
+Requisitos: JDK 17 o superior y Android SDK Platform 35.
 
-## Instalación y Uso
-
-### Prerrequisitos
-* Python 3.10 o superior instalado.
-* Extensión de GitHub Copilot activa en tu IDE (VS Code / JetBrains).
-
-### Configuración del entorno
-```bash
-# Clonar el repositorio
-git clone https://github.com/tu-usuario/tu-repositorio.git
-cd tu-repositorio
-
-# Crear un entorno virtual
-python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
-
-# Instalar dependencias de desarrollo
-pip install -r requirements.txt
+```powershell
+.\gradlew.bat clean test
+.\gradlew.bat :domain:test
+.\gradlew.bat :data:test
+.\gradlew.bat connectedCheck
 ```
 
-### Ejecución de Pruebas
-Para verificar que el código implementado cumple con las especificaciones definidas:
-```bash
-pytest
-```
+La aplicacion no requiere conexion para calcular, guardar, comparar o exportar.
+
+La especificacion, el plan y el seguimiento se encuentran en
+`specs/001-simulador-hipotecas/`.
 
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo LICENSE.
+Este proyecto esta bajo la Licencia MIT. Consulta `License` para mas detalles.

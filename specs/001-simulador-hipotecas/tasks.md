@@ -31,7 +31,7 @@ especificación exige validación de precisión, límites, exportación, persist
 - [X] T003 [P] Configurar `app/src/main/AndroidManifest.xml`, `app/src/main/kotlin/com/example/mortgage/MortgageApplication.kt` y `app/src/main/kotlin/com/example/mortgage/MainActivity.kt` con minSdk 26 y Hilt.
 - [X] T004 [P] Configurar Compose Material 3, tema, recursos de strings y recursos de colores en `app/src/main/kotlin/com/example/mortgage/ui/theme/` y `app/src/main/res/values/`.
 - [X] T005 [P] Configurar JUnit 5, MockK, kotlinx-coroutines-test y AndroidX Test en `domain/build.gradle.kts`, `data/build.gradle.kts` y `app/build.gradle.kts`.
-- [ ] T006 [P] Crear la base de pruebas y la configuración de ejecución en `domain/src/test/kotlin/com/example/mortgage/domain/TestDispatchers.kt`, `data/src/test/kotlin/com/example/mortgage/data/` y `app/src/androidTest/kotlin/com/example/mortgage/`.
+- [X] T006 [P] Crear la base de pruebas y la configuración de ejecución en `domain/src/test/kotlin/com/example/mortgage/domain/TestDispatchers.kt`, `data/src/test/kotlin/com/example/mortgage/data/` y `app/src/androidTest/kotlin/com/example/mortgage/`.
 
 ---
 
@@ -45,13 +45,13 @@ base en memoria y la app arranca mostrando una ruta Compose vacía sin conexión
 
 - [X] T007 [P] Definir `Periodicidad`, `Hipoteca`, `AmortizacionPeriodo`, `ResultadoHipoteca`, `Simulacion` y tipos identificadores en `domain/src/main/kotlin/com/example/mortgage/domain/model/MortgageModels.kt`; `importe` debe ser mayor que `0.00` y como máximo `10,000,000.00`, `plazoAnios` entero de 1 a 50, `interesAnual` no negativo con cero válido, y `periodicidad` exactamente mensual, quincenal o semanal.
 - [X] T008 [P] Definir errores de validación de campo y estados de dominio en `domain/src/main/kotlin/com/example/mortgage/domain/validation/ValidationResult.kt`, conservando `fechaInicio` como opcional y exigiendo nombre no vacío y recortado para simulaciones.
-- [ ] T009 [P] Definir interfaces `SimulationRepository`, `MortgageCalculator` y exportación en `domain/src/main/kotlin/com/example/mortgage/domain/repository/`; los puertos no deben importar Room, Compose, Hilt ni APIs Android.
+- [X] T009 [P] Definir interfaces `SimulationRepository`, `MortgageCalculator` y exportación en `domain/src/main/kotlin/com/example/mortgage/domain/repository/`; los puertos no deben importar Room, Compose, Hilt ni APIs Android.
 - [X] T010 Crear `SimulationEntity`, `AmortizationPeriodEntity`, converters de fecha/tipo y claves foráneas en `data/src/main/kotlin/com/example/mortgage/data/local/room/RoomEntities.kt`, persistiendo importes como `Long` en céntimos y el interés como `String` canónico.
 - [X] T011 Crear `SimulationDao`, `AmortizationPeriodDao` y `MortgageDatabase` en `data/src/main/kotlin/com/example/mortgage/data/local/room/`, incluyendo `Flow<List<...>>`, operaciones `suspend`, borrado en cascada y transacciones sin `fallbackToDestructiveMigration()`.
 - [X] T012 [P] Implementar mappers entre entidades Room y modelos de dominio en `data/src/main/kotlin/com/example/mortgage/data/mapper/MortgageMappers.kt`, conservando escala monetaria, fechas ISO/epoch y el saldo final `0.00`.
-- [ ] T013 Configurar `DatabaseModule`, `RepositoryModule`, dispatchers cualificados y `AppModule` en `app/src/main/kotlin/com/example/mortgage/di/` y `data/src/main/kotlin/com/example/mortgage/data/di/`, usando inyección por constructor.
+- [X] T013 Configurar `DatabaseModule`, `RepositoryModule`, dispatchers cualificados y `AppModule` en `app/src/main/kotlin/com/example/mortgage/di/` y `data/src/main/kotlin/com/example/mortgage/data/di/`, usando inyección por constructor.
 - [X] T014 [P] Crear navegación base y rutas por ID en `app/src/main/kotlin/com/example/mortgage/navigation/AppNavGraph.kt`; no pasar objetos `Simulacion` ni listas de periodos como argumentos.
-- [ ] T015 [P] Añadir pruebas de compilación/arquitectura en `domain/src/test/kotlin/com/example/mortgage/domain/ArchitectureBoundaryTest.kt` y prueba Room en memoria en `data/src/androidTest/kotlin/com/example/mortgage/data/RoomSchemaTest.kt`.
+- [X] T015 [P] Añadir pruebas de compilación/arquitectura en `domain/src/test/kotlin/com/example/mortgage/domain/ArchitectureBoundaryTest.kt` y prueba Room en memoria en `data/src/androidTest/kotlin/com/example/mortgage/data/RoomSchemaTest.kt`.
 
 ---
 
@@ -66,22 +66,22 @@ y saldo final `0.00`; también se prueban tipo cero, límites y las tres periodi
 
 ### Tests for User Story 1
 
-- [ ] T016 [P] [US1] Crear casos de referencia financiera en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/FrenchAmortizationReferenceTest.kt` para 200.000 EUR/30 años/3,5 %, cuotas mensuales, quincenales y semanales, comparando contra fórmula estándar.
-- [ ] T017 [P] [US1] Crear tests de precisión y redondeo en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/MoneyRoundingTest.kt` que verifiquen `BigDecimal`, `RoundingMode.HALF_UP`, suma de capital, totales derivados y saldo final exactamente `0.00`.
-- [ ] T018 [P] [US1] Crear tests de límites en `domain/src/test/kotlin/com/example/mortgage/domain/validation/MortgageValidationTest.kt` para importe <= 0, importe > 10.000.000 EUR, plazo <= 0/no entero/>50, interés negativo/no numérico, interés cero, periodicidad ausente y fecha inválida.
-- [ ] T019 [P] [US1] Crear tests de fechas y periodicidades en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/PeriodScheduleTest.kt` para 12, 24 y 52 periodos por año, fechas opcionales y número exacto de filas.
+- [X] T016 [P] [US1] Crear casos de referencia financiera en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/FrenchAmortizationReferenceTest.kt` para 200.000 EUR/30 años/3,5 %, cuotas mensuales, quincenales y semanales, comparando contra fórmula estándar.
+- [X] T017 [P] [US1] Crear tests de precisión y redondeo en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/MoneyRoundingTest.kt` que verifiquen `BigDecimal`, `RoundingMode.HALF_UP`, suma de capital, totales derivados y saldo final exactamente `0.00`.
+- [X] T018 [P] [US1] Crear tests de límites en `domain/src/test/kotlin/com/example/mortgage/domain/validation/MortgageValidationTest.kt` para importe <= 0, importe > 10.000.000 EUR, plazo <= 0/no entero/>50, interés negativo/no numérico, interés cero, periodicidad ausente y fecha inválida.
+- [X] T019 [P] [US1] Crear tests de fechas y periodicidades en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/PeriodScheduleTest.kt` para 12, 24 y 52 periodos por año, fechas opcionales y número exacto de filas.
 
 ### Implementation for User Story 1
 
-- [ ] T020 [US1] Implementar `ValidateMortgageInputUseCase` en `domain/src/main/kotlin/com/example/mortgage/domain/usecase/ValidateMortgageInputUseCase.kt`, produciendo errores por campo y una `Hipoteca` válida solo con importe `> 0.00` y `<= 10,000,000.00`, plazo entero 1..50, interés no negativo y periodicidad permitida.
+- [X] T020 [US1] Implementar `ValidateMortgageInputUseCase` en `domain/src/main/kotlin/com/example/mortgage/domain/usecase/ValidateMortgageInputUseCase.kt`, produciendo errores por campo y una `Hipoteca` válida solo con importe `> 0.00` y `<= 10,000,000.00`, plazo entero 1..50, interés no negativo y periodicidad permitida.
 - [X] T021 [US1] Implementar `FrenchAmortizationCalculator` en `domain/src/main/kotlin/com/example/mortgage/domain/calculation/FrenchAmortizationCalculator.kt` con `BigDecimal`, `MathContext` de alta precisión, tipo cero explícito, tipo periódico `interés anual / 100 / frecuencia` y `n = plazoAnios * frecuencia`.
 - [X] T022 [US1] Implementar `CalculateMortgageUseCase` en `domain/src/main/kotlin/com/example/mortgage/domain/usecase/CalculateMortgageUseCase.kt`, materializando cada periodo a escala 2, sumando intereses desde las filas y ajustando la última cuota para dejar capital pendiente `0.00`.
-- [ ] T023 [US1] Hacer pasar T016-T019 y añadir una prueba de rendimiento en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/MortgageCalculationPerformanceTest.kt` que mida menos de 100 ms para 10.000.000 EUR y 50 años.
+- [X] T023 [US1] Hacer pasar T016-T019 y añadir una prueba de rendimiento en `domain/src/test/kotlin/com/example/mortgage/domain/calculation/MortgageCalculationPerformanceTest.kt` que mida menos de 100 ms para 10.000.000 EUR y 50 años.
 - [X] T024 [P] [US1] Definir `CalculatorUiState`, `CalculatorUiEvent` y mensajes accesibles en `app/src/main/kotlin/com/example/mortgage/ui/calculator/CalculatorUiState.kt` y `app/src/main/res/values/strings.xml` para Editing, Calculating, Calculated y Error.
 - [X] T025 [US1] Implementar `CalculatorViewModel` en `app/src/main/kotlin/com/example/mortgage/ui/calculator/CalculatorViewModel.kt` con `StateFlow`, UDF, `collectAsStateWithLifecycle` en el borde UI y sin fórmulas ni acceso directo a Room.
 - [X] T026 [US1] Implementar pantalla y componentes de entrada en `app/src/main/kotlin/com/example/mortgage/ui/calculator/CalculatorScreen.kt`, con importe, plazo, interés, periodicidad, fecha opcional, validación visible, TalkBack, contraste y tamaños de fuente dinámicos.
-- [ ] T027 [P] [US1] Implementar resumen calculado y navegación al cuadro en `app/src/main/kotlin/com/example/mortgage/ui/calculator/MortgageSummary.kt` y actualizar `app/src/main/kotlin/com/example/mortgage/navigation/AppNavGraph.kt` para la ruta de cálculo.
-- [ ] T028 [US1] Crear tests de ViewModel y Compose en `app/src/test/kotlin/com/example/mortgage/app/calculator/CalculatorViewModelTest.kt` y `app/src/androidTest/kotlin/com/example/mortgage/app/calculator/CalculatorScreenTest.kt` para eventos, errores, resultados y semantics accesibles.
+- [X] T027 [P] [US1] Implementar resumen calculado y navegación al cuadro en `app/src/main/kotlin/com/example/mortgage/ui/calculator/MortgageSummary.kt` y actualizar `app/src/main/kotlin/com/example/mortgage/navigation/AppNavGraph.kt` para la ruta de cálculo.
+- [X] T028 [US1] Crear tests de ViewModel y Compose en `app/src/test/kotlin/com/example/mortgage/app/calculator/CalculatorViewModelTest.kt` y `app/src/androidTest/kotlin/com/example/mortgage/app/calculator/CalculatorScreenTest.kt` para eventos, errores, resultados y semantics accesibles.
 
 **Checkpoint**: US1 es demostrable sin persistencia ni exportación: introducir datos, calcular y
 verificar cuota, totales, periodos y saldo final.
@@ -98,10 +98,10 @@ por toda la lista y producir CSV y PDF con resumen y todas las filas, sin red.
 
 ### Tests for User Story 2
 
-- [ ] T029 [P] [US2] Crear pruebas de contrato de columnas y datos en `data/src/test/kotlin/com/example/mortgage/data/export/ExportContentContractTest.kt`, verificando resumen, orden ascendente, cinco columnas y fechas opcionales.
+- [X] T029 [P] [US2] Crear pruebas de contrato de columnas y datos en `data/src/test/kotlin/com/example/mortgage/data/export/ExportContentContractTest.kt`, verificando resumen, orden ascendente, cinco columnas y fechas opcionales.
 - [X] T030 [P] [US2] Crear pruebas de CSV en `data/src/test/kotlin/com/example/mortgage/data/export/CsvExporterTest.kt` para UTF-8, encabezados estables, `toPlainString()`, fechas ISO y escape de separadores/comillas.
-- [ ] T031 [P] [US2] Crear pruebas de PDF en `data/src/test/kotlin/com/example/mortgage/data/export/PdfExporterTest.kt` para MIME, resumen, paginación, encabezados repetidos y no división de filas.
-- [ ] T032 [P] [US2] Crear prueba instrumentada de SAF y exportación en `data/src/androidTest/kotlin/com/example/mortgage/data/export/StorageAccessFrameworkTest.kt`, incluyendo cancelación y fallo de escritura sin alterar la simulación.
+- [X] T031 [P] [US2] Crear pruebas de PDF en `data/src/androidTest/kotlin/com/example/mortgage/data/export/PdfExporterTest.kt` para MIME, resumen, paginación, encabezados repetidos y no división de filas.
+- [X] T032 [P] [US2] Crear prueba instrumentada de SAF y exportación en `data/src/androidTest/kotlin/com/example/mortgage/data/export/StorageAccessFrameworkTest.kt`, incluyendo cancelación y fallo de escritura sin alterar la simulación.
 
 ### Implementation for User Story 2
 
@@ -109,8 +109,8 @@ por toda la lista y producir CSV y PDF con resumen y todas las filas, sin red.
 - [X] T034 [US2] Implementar `CsvExporter` en `data/src/main/kotlin/com/example/mortgage/data/export/csv/CsvExporter.kt` con UTF-8, metadatos de resumen, columnas `numeroPeriodo,fecha,cuota,capitalAmortizado,intereses,capitalPendiente`, escape RFC-like y números con punto decimal.
 - [X] T035 [US2] Implementar `PdfExporter` en `data/src/main/kotlin/com/example/mortgage/data/export/pdf/PdfExporter.kt` con `PdfDocument`, páginas fijas, encabezados repetidos, filas no partidas y cierre seguro del documento.
 - [X] T036 [US2] Implementar `DocumentExporter` con `ACTION_CREATE_DOCUMENT` y URI `content://` en `app/src/main/kotlin/com/example/mortgage/export/DocumentExportLauncher.kt`, reportando éxito, cancelación y error mediante estado UDF.
-- [ ] T037 [US2] Implementar pantalla de amortización desplazable en `app/src/main/kotlin/com/example/mortgage/ui/amortization/AmortizationScreen.kt` y fila reutilizable en `AmortizationRow.kt`, mostrando número, fecha opcional, cuota, capital, intereses y saldo.
-- [ ] T038 [US2] Añadir acciones de exportación y estados accesibles en `app/src/main/kotlin/com/example/mortgage/ui/amortization/AmortizationViewModel.kt`, incluyendo etiquetas semánticas, formato monetario y mensajes de error comprensibles.
+- [X] T037 [US2] Implementar pantalla de amortización desplazable en `app/src/main/kotlin/com/example/mortgage/ui/amortization/AmortizationScreen.kt` y fila reutilizable en `AmortizationRow.kt`, mostrando número, fecha opcional, cuota, capital, intereses y saldo.
+- [X] T038 [US2] Añadir acciones de exportación y estados accesibles en `app/src/main/kotlin/com/example/mortgage/ui/amortization/AmortizationViewModel.kt`, incluyendo etiquetas semánticas, formato monetario y mensajes de error comprensibles.
 - [ ] T039 [US2] Hacer pasar T029-T032 y validar manualmente el flujo de `specs/001-simulador-hipotecas/quickstart.md` para tabla completa, CSV, PDF y modo offline.
 
 **Checkpoint**: US1 y US2 funcionan juntas; el cuadro mostrado y ambos archivos exportados
@@ -128,17 +128,17 @@ recuperarlas y mostrar cuota, intereses y plazo de ambas junto con sus diferenci
 
 ### Tests for User Story 3
 
-- [ ] T040 [P] [US3] Crear pruebas de repositorio Room en `data/src/androidTest/kotlin/com/example/mortgage/data/repository/RoomSimulationRepositoryTest.kt` para guardar entrada/resultado en transacción, listar, recuperar y borrar en cascada.
-- [ ] T041 [P] [US3] Crear tests de guardado y nombre en `domain/src/test/kotlin/com/example/mortgage/domain/usecase/SaveSimulationUseCaseTest.kt` para nombre obligatorio, recortado y resultado calculado existente.
+- [X] T040 [P] [US3] Crear pruebas de repositorio Room en `data/src/androidTest/kotlin/com/example/mortgage/data/repository/RoomSimulationRepositoryTest.kt` para guardar entrada/resultado en transacción, listar, recuperar y borrar en cascada.
+- [X] T041 [P] [US3] Crear tests de guardado y nombre en `domain/src/test/kotlin/com/example/mortgage/domain/usecase/SaveSimulationUseCaseTest.kt` para nombre obligatorio, recortado y resultado calculado existente.
 - [X] T042 [P] [US3] Crear tests de comparación en `domain/src/test/kotlin/com/example/mortgage/domain/usecase/CompareSimulationsUseCaseTest.kt` para exactamente dos IDs y diferencias firmadas de cuota, intereses y plazo.
-- [ ] T043 [P] [US3] Crear tests instrumentados de recuperación offline en `app/src/androidTest/kotlin/com/example/mortgage/app/saved/SavedSimulationsOfflineTest.kt` después de cerrar y reabrir la actividad.
+- [X] T043 [P] [US3] Crear tests instrumentados de recuperación offline en `app/src/androidTest/kotlin/com/example/mortgage/app/saved/SavedSimulationsOfflineTest.kt` después de cerrar y reabrir la actividad.
 
 ### Implementation for User Story 3
 
 - [X] T044 [US3] Implementar `RoomSimulationRepository` en `data/src/main/kotlin/com/example/mortgage/data/repository/RoomSimulationRepository.kt` con transacciones, `Flow` para listados, recuperación por ID y borrado atómico.
 - [X] T045 [US3] Implementar `SaveSimulationUseCase`, `ListSimulationsUseCase`, `GetSimulationUseCase` y `DeleteSimulationUseCase` en `domain/src/main/kotlin/com/example/mortgage/domain/usecase/SimulationUseCases.kt`.
 - [X] T046 [US3] Implementar `CompareSimulationsUseCase` y `SimulationComparison` en `domain/src/main/kotlin/com/example/mortgage/domain/usecase/CompareSimulationsUseCase.kt`, aceptando exactamente dos simulaciones y conservando signo y unidades.
-- [ ] T047 [US3] Implementar guardado desde resultado calculado en `app/src/main/kotlin/com/example/mortgage/ui/calculator/SaveSimulationDialog.kt` y `CalculatorViewModel.kt`, rechazando nombre en blanco sin perder datos.
+- [X] T047 [US3] Implementar guardado desde resultado calculado en `app/src/main/kotlin/com/example/mortgage/ui/calculator/SaveSimulationDialog.kt` y `CalculatorViewModel.kt`, rechazando nombre en blanco sin perder datos.
 - [X] T048 [US3] Implementar lista, recuperación, eliminación y selección para comparar en `app/src/main/kotlin/com/example/mortgage/ui/saved/SavedSimulationsScreen.kt` y `SavedSimulationsViewModel.kt`, incluyendo estado vacío y confirmación de borrado.
 - [X] T049 [US3] Implementar pantalla de comparación y sus estados en `app/src/main/kotlin/com/example/mortgage/ui/comparison/ComparisonScreen.kt` y `ComparisonViewModel.kt`, mostrando columnas de ambas simulaciones y diferencias firmadas.
 - [X] T050 [US3] Completar rutas con IDs y restauración de estado en `app/src/main/kotlin/com/example/mortgage/navigation/AppNavGraph.kt`; no pasar objetos completos entre destinos.
@@ -153,11 +153,11 @@ modifican otra.
 
 **Purpose**: Cerrar calidad, accesibilidad, rendimiento, documentación y validación de entrega.
 
-- [ ] T052 [P] Añadir pruebas de accesibilidad Compose en `app/src/androidTest/kotlin/com/example/mortgage/app/accessibility/AccessibilityTest.kt` para TalkBack semantics, contraste y fuentes grandes.
-- [ ] T053 [P] Añadir pruebas de regresión de fórmula y límites en `domain/src/test/kotlin/com/example/mortgage/domain/regression/MortgageRegressionTest.kt` usando todos los casos de `spec.md`.
-- [ ] T054 [P] Verificar que no existen dependencias de red ni APIs externas en `app/src/main/`, `data/src/main/` y `domain/src/main/`, y documentar la revisión en `docs/offline-review.md`.
-- [ ] T055 Optimizar generación/consulta del cuadro y revisar el objetivo de 100 ms en `domain/src/main/kotlin/com/example/mortgage/domain/calculation/` y `data/src/main/kotlin/com/example/mortgage/data/local/room/`.
-- [ ] T056 Actualizar `README.md` con requisitos Android, ejecución offline, comandos de test, límites de cálculo y alcance no financiero de la aplicación.
+- [X] T052 [P] Añadir pruebas de accesibilidad Compose en `app/src/androidTest/kotlin/com/example/mortgage/app/accessibility/AccessibilityTest.kt` para TalkBack semantics, contraste y fuentes grandes.
+- [X] T053 [P] Añadir pruebas de regresión de fórmula y límites en `domain/src/test/kotlin/com/example/mortgage/domain/regression/MortgageRegressionTest.kt` usando todos los casos de `spec.md`.
+- [X] T054 [P] Verificar que no existen dependencias de red ni APIs externas en `app/src/main/`, `data/src/main/` y `domain/src/main/`, y documentar la revisión en `docs/offline-review.md`.
+- [X] T055 Optimizar generación/consulta del cuadro y revisar el objetivo de 100 ms en `domain/src/main/kotlin/com/example/mortgage/domain/calculation/` y `data/src/main/kotlin/com/example/mortgage/data/local/room/`.
+- [X] T056 Actualizar `README.md` con requisitos Android, ejecución offline, comandos de test, límites de cálculo y alcance no financiero de la aplicación.
 - [ ] T057 Ejecutar `gradlew.bat clean test`, `gradlew.bat :domain:test`, `gradlew.bat :data:test` y `gradlew.bat connectedCheck` según disponibilidad de dispositivo, registrando resultados en `docs/validation-report.md`.
 - [ ] T058 Ejecutar todos los escenarios de `specs/001-simulador-hipotecas/quickstart.md` y corregir cualquier discrepancia entre UI, Room, CSV y PDF antes de cerrar la feature.
 

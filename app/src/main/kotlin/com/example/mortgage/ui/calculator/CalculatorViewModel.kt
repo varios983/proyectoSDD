@@ -35,6 +35,8 @@ class CalculatorViewModel @Inject constructor(
             is CalculatorUiEvent.FrequencyChanged -> _state.value.copy(frequency = event.value, fieldErrors = emptyMap())
             is CalculatorUiEvent.StartDateChanged -> _state.value.copy(startDate = event.value, fieldErrors = emptyMap())
             is CalculatorUiEvent.SaveNameChanged -> _state.value.copy(saveName = event.value, saveMessage = null)
+            CalculatorUiEvent.SaveDialogOpened -> _state.value.copy(showSaveDialog = true, saveMessage = null)
+            CalculatorUiEvent.SaveDialogClosed -> _state.value.copy(showSaveDialog = false)
             CalculatorUiEvent.SaveClicked -> _state.value.copy(saveMessage = null)
             CalculatorUiEvent.CalculateClicked -> _state.value.copy(isCalculating = true, fieldErrors = emptyMap(), generalError = null)
         }
@@ -86,7 +88,10 @@ class CalculatorViewModel @Inject constructor(
                         resultado = result
                     )
                     val saved = saveSimulation(current.saveName, simulation)
-                    _state.value = current.copy(saveMessage = saved.fold({ "Simulación guardada" }, { it.message }))
+                    _state.value = current.copy(
+                        showSaveDialog = false,
+                        saveMessage = saved.fold({ "Simulación guardada" }, { it.message })
+                    )
                 }
             }
         }
