@@ -24,5 +24,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MortgageSimulator"
+rootProject.name = "simulador-hipotecas-android"
 include(":app", ":domain", ":data")
